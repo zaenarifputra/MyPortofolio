@@ -112,28 +112,51 @@ tabBtns.forEach(btn => {
 
 // ========== Service Modal ==========
 const serviceCards = document.querySelectorAll('.service-card');
-const serviceModal = document.getElementById('serviceModal');
+const serviceModalWeb = document.getElementById('serviceModalWeb');
+const serviceModalMobile = document.getElementById('serviceModalMobile');
+const serviceModalUiux = document.getElementById('serviceModalUiux');
 const closeModalBtns = document.querySelectorAll('.close-modal');
 
 serviceCards.forEach(card => {
     card.addEventListener('click', () => {
-        serviceModal.classList.add('active');
+        const serviceType = card.getAttribute('data-service');
+        
+        // Close all modals first
+        serviceModalWeb.classList.remove('active');
+        serviceModalMobile.classList.remove('active');
+        serviceModalUiux.classList.remove('active');
+        
+        // Open the correct modal based on service type
+        if(serviceType === 'web') {
+            serviceModalWeb.classList.add('active');
+        } else if(serviceType === 'mobile') {
+            serviceModalMobile.classList.add('active');
+        } else if(serviceType === 'uiux') {
+            serviceModalUiux.classList.add('active');
+        }
     });
 });
 
 closeModalBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-        serviceModal.classList.remove('active');
-        portfolioModal.classList.remove('active');
+        serviceModalWeb.classList.remove('active');
+        serviceModalMobile.classList.remove('active');
+        serviceModalUiux.classList.remove('active');
+        
+        // Close all portfolio modals
+        Object.values(portfolioModals).forEach(m => m.classList.remove('active'));
+        
         certificateModal.classList.remove('active');
     });
 });
 
 // Close modal when clicking outside
-serviceModal.addEventListener('click', (e) => {
-    if(e.target === serviceModal) {
-        serviceModal.classList.remove('active');
-    }
+[serviceModalWeb, serviceModalMobile, serviceModalUiux].forEach(modal => {
+    modal.addEventListener('click', (e) => {
+        if(e.target === modal) {
+            modal.classList.remove('active');
+        }
+    });
 });
 
 // ========== Portfolio Filter ==========
@@ -162,25 +185,42 @@ filterBtns.forEach(btn => {
 });
 
 // ========== Portfolio Modal ==========
-const portfolioModal = document.getElementById('portfolioModal');
-const portfolioModalImage = document.querySelector('.portfolio-modal-img img');
+const portfolioModals = {
+    1: document.getElementById('portfolioModal1'),
+    2: document.getElementById('portfolioModal2'),
+    3: document.getElementById('portfolioModal3'),
+    4: document.getElementById('portfolioModal4'),
+    5: document.getElementById('portfolioModal5'),
+    6: document.getElementById('portfolioModal6'),
+    7: document.getElementById('portfolioModal7')
+};
 
 portfolioItems.forEach(item => {
     item.addEventListener('click', () => {
-        const imgSrc = item.querySelector('.portfolio-img img').src;
-        const title = item.querySelector('.portfolio-info h4').textContent;
-        const category = item.querySelector('.portfolio-category').textContent;
+        const portfolioId = item.getAttribute('data-portfolio');
+        const modal = portfolioModals[portfolioId];
         
-        portfolioModalImage.src = imgSrc;
-        document.querySelector('.portfolio-modal-info h3').textContent = title;
-        
-        portfolioModal.classList.add('active');
+        if(modal) {
+            // Close all portfolio modals first
+            Object.values(portfolioModals).forEach(m => {
+                if(m) m.classList.remove('active');
+            });
+            // Open the selected modal
+            modal.classList.add('active');
+        } else {
+            console.error('Modal not found for portfolio ID:', portfolioId);
+        }
     });
 });
 
-portfolioModal.addEventListener('click', (e) => {
-    if(e.target === portfolioModal) {
-        portfolioModal.classList.remove('active');
+// Close portfolio modals when clicking outside
+Object.values(portfolioModals).forEach(modal => {
+    if(modal) {
+        modal.addEventListener('click', (e) => {
+            if(e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
     }
 });
 

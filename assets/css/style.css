@@ -552,6 +552,8 @@ html, body {
 .home-social{
     position: absolute;
     left: 0;
+    z-index: 10;
+    pointer-events: auto;
 }
 
 .home-social span{
@@ -562,6 +564,7 @@ html, body {
     white-space: nowrap;
     transform: rotateZ(-90deg);
     transform-origin: left;
+    pointer-events: none;
 }
 
 .home-social .social-line{
@@ -571,18 +574,23 @@ html, body {
     margin-top: 37px;
     margin-bottom: 25px;
     margin-left: 10px;
+    pointer-events: none;
 }
 
 .home-social .social-icons{
     display: flex;
     flex-direction: column;
     gap: 25px;
+    position: relative;
+    z-index: 10;
 }
 
 .home-social .social-icons li a{
     color: var(--color-01);
     font-size: var(--xlarge-font-size);
     transition: .3s;
+    cursor: pointer;
+    pointer-events: auto;
 }
 
 .home-social .social-icons li a:hover{
@@ -1139,15 +1147,32 @@ html, body {
     position: absolute;
     top: 20px;
     right: 20px;
-    color: var(--color-01);
-    font-size: 2rem;
+    color: var(--dark-color);
+    background: var(--primary-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
     cursor: pointer;
     transition: .3s;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.close-modal i{
+    color: var(--dark-color);
 }
 
 .close-modal:hover{
-    color: var(--hover-color);
-    transform: rotate(90deg);
+    background: var(--hover-color);
+    transform: rotate(90deg) scale(1.1);
+}
+
+.close-modal:hover i{
+    color: var(--white-color);
 }
 
 .modal-title{
@@ -1247,6 +1272,7 @@ html, body {
     width: 100%;
     height: 300px;
     overflow: hidden;
+    display: block;
 }
 
 .portfolio-img img{
@@ -1254,6 +1280,7 @@ html, body {
     height: 100%;
     object-fit: cover;
     transition: .3s;
+    display: block;
 }
 
 .portfolio-item:hover .portfolio-img img{
@@ -1304,29 +1331,44 @@ html, body {
 }
 
 .portfolio-modal-content{
+    background: var(--body-color);
+    border: 1px solid hsl(var(--hue) 45% 98% / .1);
+    border-radius: 20px;
     max-width: 900px;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 0;
     margin: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .portfolio-modal-img{
     width: 100%;
-    height: 400px;
+    min-height: 400px;
+    max-height: 500px;
     border-radius: 20px 20px 0 0;
     overflow: hidden;
+    flex-shrink: 0;
+    background: var(--card-bg);
 }
 
 .portfolio-modal-img img{
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
+    display: block;
 }
 
 .portfolio-modal-info{
+    background: var(--body-color);
     padding: 40px;
+    border-radius: 0 0 20px 20px;
+    flex-grow: 1;
 }
 
 .portfolio-modal-info h3{
@@ -1334,6 +1376,14 @@ html, body {
     font-size: var(--h4-font-size);
     font-weight: var(--font-bold);
     margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.portfolio-modal-info h4{
+    color: var(--color-02);
+    font-size: var(--h5-font-size);
+    font-weight: var(--font-bold);
+    margin: 25px 0 15px 0;
 }
 
 .portfolio-modal-info p{
@@ -1341,6 +1391,25 @@ html, body {
     font-size: var(--base-font-size);
     line-height: 1.8;
     margin-bottom: 20px;
+    text-align: justify;
+}
+
+.portfolio-link-btn{
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.portfolio-link-btn .ptr-main-btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--base-font-size);
+    padding: 16px 35px;
+}
+
+.portfolio-link-btn .ptr-main-btn i{
+    font-size: 1.3rem;
 }
 
 /* =========================================
@@ -1887,6 +1956,7 @@ html, body {
 .footer-social{
     display: flex;
     gap: 20px;
+    justify-content: center;
 }
 
 .footer-social a{
@@ -1901,12 +1971,15 @@ html, body {
     align-items: center;
     justify-content: center;
     transition: .3s;
+    cursor: pointer;
+    pointer-events: auto;
 }
 
 .footer-social a:hover{
     background: var(--primary-color);
     color: var(--dark-color);
     border-color: var(--primary-color);
+    transform: translateY(-3px);
 }
 
 .copyright{
