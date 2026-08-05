@@ -126,6 +126,8 @@ body{
     transition: background .3s, color .3s;
     overflow-x: hidden;
     min-height: 100vh;
+    position: relative;
+    width: 100%;
 }
 
 img{
@@ -1049,6 +1051,8 @@ html, body {
     padding: 40px 30px;
     border-radius: 15px;
     border: 1px solid hsl(var(--hue) 45% 98% / .1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(10px);
     text-align: center;
     transition: .3s;
     cursor: pointer;
@@ -1057,6 +1061,7 @@ html, body {
 .service-card:hover{
     transform: translateY(-10px);
     border-color: var(--primary-color);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
 
 .service-icon{
@@ -1130,6 +1135,7 @@ html, body {
     position: relative;
     animation: modalSlideIn .3s ease;
     margin: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
 
 @keyframes modalSlideIn{
@@ -1256,6 +1262,7 @@ html, body {
     border-radius: 15px;
     overflow: hidden;
     cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     transition: .3s;
 }
 
@@ -1265,6 +1272,7 @@ html, body {
 
 .portfolio-item:hover{
     transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
 
 .portfolio-img{
@@ -1344,6 +1352,7 @@ html, body {
     position: relative;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
 
 .portfolio-modal-img{
@@ -1427,12 +1436,15 @@ html, body {
     border-radius: 15px;
     overflow: hidden;
     cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(10px);
     transition: .3s;
 }
 
 .certificate-card:hover{
     transform: translateY(-10px);
     border-color: var(--primary-color);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
 
 .certificate-img{
@@ -2220,6 +2232,13 @@ html, body {
         padding: 10px 15px;
         column-gap: 12px;
         max-width: 90vw;
+        overflow-x: auto;
+        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .bottom-nav .menu::-webkit-scrollbar {
+        display: none;
     }
     
     .bottom-nav .menu li a i{
