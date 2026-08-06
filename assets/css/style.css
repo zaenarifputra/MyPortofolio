@@ -2258,6 +2258,8 @@ body.light-theme .floating-badge {
 @media screen and (max-width: 992px){
     .ptr-container{
         max-width: 720px;
+        padding: 0 20px;
+        box-sizing: border-box;
     }
     
     .nav-menu-section{
@@ -2265,56 +2267,139 @@ body.light-theme .floating-badge {
     }
     
     .home-container{
-        padding: 90px 0 50px;
-    }
-    
-    .avatar-container{
-        flex-direction: column;
-        gap: 25px;
+        padding: 85px 0 40px;
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
         align-items: center;
-        text-align: center;
     }
     
-    .avatar-img-wrapper{
-        order: 2;
-    }
-    
-    .avatar-info{
-        order: 3;
+    .home-container .ptr-wrapper{
         display: flex;
         flex-direction: column;
         align-items: center;
-    }
-
-    .hero-actions{
         justify-content: center;
+        width: 100%;
+        margin: 0 auto;
     }
     
     .home-social{
         order: 1;
         position: relative;
+        left: auto;
+        top: auto;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 15px;
-        margin-bottom: 25px;
-        left: 0;
+        margin-bottom: 20px;
+        width: 100%;
     }
-    
+
     .home-social span{
         position: relative;
         transform: none;
-        left: 0;
+        left: auto;
     }
-    
+
     .home-social .social-line{
-        width: 80px;
+        width: 60px;
         height: 1px;
         margin: 0;
     }
-    
+
     .home-social .social-icons{
         flex-direction: row;
+        gap: 15px;
+    }
+    
+    .avatar-container{
+        order: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+        gap: 20px;
+    }
+    
+    .avatar-img-wrapper{
+        position: relative;
+        width: min(280px, 70vw);
+        height: min(280px, 70vw);
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .avatar-img{
+        width: 100%;
+        height: 100%;
+    }
+
+    .floating-badge {
+        padding: 5px 12px;
+        font-size: 0.78rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .badge-flutter { top: 5px; left: 0; }
+    .badge-kotlin { bottom: 5px; top: auto; left: 0; }
+    .badge-react { top: 5px; right: 0; }
+    .badge-figma { bottom: 5px; top: auto; right: 0; }
+    
+    .avatar-info{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+
+    .avatar-info .text-content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .avatar-info .my-name {
+        font-size: clamp(1.7rem, 6.5vw, 2.5rem);
+        line-height: 1.25;
+        text-align: center;
+        margin: 6px 0 10px 0;
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+
+    .avatar-info .what-i-do {
+        font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .hero-actions{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .hero-actions .ptr-main-btn {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin: 0;
     }
     
     .home-scroll-btn{
@@ -2387,10 +2472,6 @@ body.light-theme .floating-badge {
     .contact-right{
         padding: 40px 30px;
     }
-    
-    .contact-form-title{
-        font-size: 1.8rem;
-    }
 }
 
 /* =========================================
@@ -2409,7 +2490,8 @@ body.light-theme .floating-badge {
     
     .ptr-container{
         max-width: 100%;
-        padding: 0 20px;
+        padding: 0 16px;
+        box-sizing: border-box;
     }
     
     .ptr-header{
@@ -2435,42 +2517,50 @@ body.light-theme .floating-badge {
     }
     
     .home-container{
-        padding: 80px 0 40px;
+        padding: 75px 0 35px;
         min-height: 100vh;
+        min-height: 100dvh;
         display: flex;
         align-items: center;
     }
     
     .home-container .ptr-wrapper{
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 auto;
     }
     
     .avatar-container{
-        gap: 20px;
+        gap: 18px;
         flex-direction: column;
         align-items: center;
         text-align: center;
+        width: 100%;
+        margin: 0 auto;
     }
     
-    .avatar-img{
-        width: 280px;
-        height: 280px;
-        max-width: 70vw;
+    .avatar-img-wrapper{
+        width: min(260px, 72vw);
+        height: min(260px, 72vw);
+        margin: 0 auto;
     }
 
     .floating-badge {
-        padding: 5px 10px;
+        padding: 4px 10px;
         font-size: 0.75rem;
     }
 
-    .badge-flutter { top: 5%; left: -10px; }
-    .badge-kotlin { top: 75%; left: -15px; }
-    .badge-react { top: 5%; right: -10px; }
-    .badge-figma { top: 75%; right: -15px; }
+    .badge-flutter { top: 0px; left: 0px; }
+    .badge-kotlin { bottom: 0px; top: auto; left: 0px; }
+    .badge-react { top: 0px; right: 0px; }
+    .badge-figma { bottom: 0px; top: auto; right: 0px; }
     
     .avatar-info{
         width: 100%;
-        padding: 0 10px;
+        padding: 0 8px;
+        box-sizing: border-box;
     }
     
     .avatar-info .hello-text{
@@ -2478,13 +2568,17 @@ body.light-theme .floating-badge {
     }
     
     .avatar-info .my-name{
-        font-size: 1.8rem;
-        line-height: 1.2;
+        font-size: clamp(1.6rem, 7vw, 2.2rem);
+        line-height: 1.25;
+        text-align: center;
+        word-break: break-word;
+        margin: 4px 0 8px 0;
     }
     
     .avatar-info .what-i-do{
         font-size: 0.95rem;
         margin-bottom: 20px;
+        text-align: center;
     }
     
     .ptr-main-btn{
@@ -2500,7 +2594,7 @@ body.light-theme .floating-badge {
         align-items: center;
         justify-content: center;
         gap: 12px;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         position: relative;
         left: 0;
         width: 100%;
@@ -2513,7 +2607,7 @@ body.light-theme .floating-badge {
     }
     
     .home-social .social-line{
-        width: 70px;
+        width: 60px;
         height: 1px;
         margin: 0;
     }
@@ -2861,14 +2955,15 @@ body.light-theme .floating-badge {
         padding: 0;
     }
     
-    .avatar-container{
-        padding: 0;
+    .avatar-img-wrapper{
+        width: min(240px, 68vw);
+        height: min(240px, 68vw);
+        margin: 0 auto 15px;
     }
     
     .avatar-img{
-        width: 220px;
-        height: 220px;
-        max-width: 60vw;
+        width: 100%;
+        height: 100%;
     }
     
     .avatar-info .hello-text{
@@ -2876,14 +2971,17 @@ body.light-theme .floating-badge {
     }
     
     .avatar-info .my-name{
-        font-size: 1.6rem;
-        line-height: 1.3;
-        margin-bottom: 8px;
+        font-size: clamp(1.4rem, 6.5vw, 1.8rem);
+        line-height: 1.25;
+        margin-bottom: 6px;
+        text-align: center;
+        word-break: break-word;
     }
     
     .avatar-info .what-i-do{
         font-size: 0.85rem;
-        margin-bottom: 25px;
+        margin-bottom: 18px;
+        text-align: center;
     }
     
     .ptr-main-btn{
@@ -3373,14 +3471,21 @@ body.light-theme .floating-badge {
         padding: 60px 0 30px;
     }
     
+    .avatar-img-wrapper{
+        width: min(220px, 65vw);
+        height: min(220px, 65vw);
+        margin: 0 auto 12px;
+    }
+    
     .avatar-img{
-        width: 200px;
-        height: 200px;
-        max-width: 55vw;
+        width: 100%;
+        height: 100%;
     }
     
     .avatar-info .my-name{
-        font-size: 1.4rem;
+        font-size: clamp(1.3rem, 6vw, 1.6rem);
+        text-align: center;
+        word-break: break-word;
     }
     
     .avatar-info .what-i-do{
@@ -3576,14 +3681,21 @@ body.light-theme .floating-badge {
         padding: 50px 0 30px;
     }
     
+    .avatar-img-wrapper{
+        width: min(180px, 60vw);
+        height: min(180px, 60vw);
+        margin: 0 auto 10px;
+    }
+    
     .avatar-img{
-        width: 180px;
-        height: 180px;
-        max-width: 55vw;
+        width: 100%;
+        height: 100%;
     }
     
     .avatar-info .my-name{
-        font-size: 1.2rem;
+        font-size: clamp(1.2rem, 5.5vw, 1.4rem);
+        text-align: center;
+        word-break: break-word;
     }
     
     .avatar-info .hello-text{
