@@ -204,8 +204,149 @@ body.light-theme .ambient-orb {
 }
 
 /* =========================================
-   Status Pill & Floating Tech Badges
+   Typing Cursor & Animation
 ========================================= */
+.typing-cursor {
+    display: inline-block;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-left: 2px;
+    animation: blinkCursor 0.8s infinite;
+}
+
+@keyframes blinkCursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* =========================================
+   Skill Progress Bars
+========================================= */
+.skill-info-wrap {
+    width: 100%;
+}
+
+.skill-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.skill-title-row h5 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-02);
+}
+
+.skill-percentage {
+    color: var(--primary-color);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.skill-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+body.light-theme .skill-bar {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.skill-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary-color), hsl(var(--hue), 85%, 85%));
+    border-radius: 10px;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* =========================================
+   Portfolio Tech Chips
+========================================= */
+.portfolio-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.tech-chip {
+    font-size: 0.72rem;
+    padding: 3px 10px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    border: 1px solid hsl(var(--hue) 45% 98% / .12);
+    color: var(--color-02);
+    backdrop-filter: blur(8px);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.tech-chip i {
+    color: var(--primary-color);
+}
+
+/* =========================================
+   Glassmorphic Toast Notification
+========================================= */
+.toast-container {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    z-index: var(--z-max);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toast-container.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
+
+.toast-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(18, 22, 34, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid hsl(var(--hue) 45% 98% / .2);
+    padding: 14px 22px;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+    min-width: 280px;
+}
+
+body.light-theme .toast-card {
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.toast-icon {
+    font-size: 1.6rem;
+    color: #10b981;
+}
+
+.toast-title {
+    color: var(--color-02);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.toast-msg {
+    color: var(--color-04);
+    font-size: 0.82rem;
+}
 .status-pill {
     display: inline-flex;
     align-items: center;

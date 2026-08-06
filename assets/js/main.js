@@ -208,20 +208,10 @@ filterBtns.forEach(btn => {
 });
 
 // ========== Portfolio Modal ==========
-const portfolioModals = {
-    1: document.getElementById('portfolioModal1'),
-    2: document.getElementById('portfolioModal2'),
-    3: document.getElementById('portfolioModal3'),
-    4: document.getElementById('portfolioModal4'),
-    5: document.getElementById('portfolioModal5'),
-    6: document.getElementById('portfolioModal6'),
-    7: document.getElementById('portfolioModal7')
-};
-
 portfolioItems.forEach(item => {
     item.addEventListener('click', () => {
         const portfolioId = item.getAttribute('data-portfolio');
-        const modal = portfolioModals[portfolioId];
+        const modal = document.getElementById(`portfolioModal${portfolioId}`);
         
         if(modal) {
             closeAllModals();
@@ -233,14 +223,12 @@ portfolioItems.forEach(item => {
 });
 
 // Close portfolio modals when clicking outside
-Object.values(portfolioModals).forEach(modal => {
-    if(modal) {
-        modal.addEventListener('click', (e) => {
-            if(e.target === modal) {
-                closeModal(modal);
-            }
-        });
-    }
+document.querySelectorAll('.portfolio-modal').forEach(modal => {
+    modal.addEventListener('click', (e) => {
+        if(e.target === modal) {
+            closeModal(modal);
+        }
+    });
 });
 
 // ========== Certificate Modal ==========
@@ -294,6 +282,131 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// ========== Glassmorphic Toast Notification ==========
+const toast = document.getElementById('toastNotification');
+const toastTitle = document.getElementById('toastTitle');
+const toastMsg = document.getElementById('toastMsg');
+let toastTimeout;
+
+function showToast(title, message, iconClass = 'ri-checkbox-circle-fill') {
+    if (!toast) return;
+    
+    if (toastTitle) toastTitle.textContent = title;
+    if (toastMsg) toastMsg.textContent = message;
+    
+    const icon = toast.querySelector('.toast-icon');
+    if (icon) icon.className = `toast-icon ${iconClass}`;
+
+    toast.classList.add('active');
+
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+        toast.classList.remove('active');
+    }, 4000);
+}
+
+// ========== Typewriter Effect ==========
+const typingText = document.querySelector('.typing-text');
+if (typingText) {
+    const words = ["Mobile & Web Developer", "Android Developer (Kotlin)", "Flutter Specialist", "UI/UX Designer"];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function type() {
+        const currentWord = words[wordIndex];
+        if (isDeleting) {
+            typingText.textContent = currentWord.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            typingText.textContent = currentWord.substring(0, charIndex + 1);
+            charIndex++;
+        }
+
+        let typeSpeed = isDeleting ? 40 : 80;
+
+        if (!isDeleting && charIndex === currentWord.length) {
+            typeSpeed = 2200;
+            isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            wordIndex = (wordIndex + 1) % words.length;
+            typeSpeed = 400;
+        }
+
+        setTimeout(type, typeSpeed);
+    }
+    type();
+}
+
+// ========== Animated Counter Up ==========
+const counters = document.querySelectorAll('.counter-number');
+let counterAnimated = false;
+
+function animateCounters() {
+    counters.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        let count = 0;
+        const speed = target > 5 ? 150 : 300;
+        const increment = target / (speed / 16);
+
+        function updateCount() {
+            count += increment;
+            if (count < target) {
+                counter.innerText = Math.ceil(count).toString().padStart(2, '0');
+                requestAnimationFrame(updateCount);
+            } else {
+                counter.innerText = target.toString().padStart(2, '0');
+            }
+        }
+        updateCount();
+    });
+}
+
+const aboutSection = document.getElementById('about');
+if (aboutSection) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !counterAnimated) {
+                counterAnimated = true;
+                animateCounters();
+            }
+        });
+    }, { threshold: 0.3 });
+    observer.observe(aboutSection);
+}
+
+// ========== Skill Fill Animation ==========
+function animateSkills() {
+    const skillFills = document.querySelectorAll('.skill-fill');
+    skillFills.forEach(fill => {
+        const progress = fill.getAttribute('data-progress');
+        if (progress) {
+            fill.style.width = progress;
+        }
+    });
+}
+
+const skillsSection = document.getElementById('resume');
+if (skillsSection) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateSkills();
+            }
+        });
+    }, { threshold: 0.2 });
+    observer.observe(skillsSection);
+}
+
+tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (btn.getAttribute('data-tab') === 'skills') {
+            setTimeout(animateSkills, 100);
+        }
+    });
+});
+
 // ========== Contact Form ==========
 const contactFormNew = document.getElementById('contactFormNew');
 
@@ -301,38 +414,29 @@ if(contactFormNew) {
     contactFormNew.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Get form data
         const formData = new FormData(contactFormNew);
         const name = formData.get('name');
         const email = formData.get('email');
         const subject = formData.get('subject');
         const message = formData.get('message');
         
-        // Create mailto link with form data
         const mailtoLink = `mailto:zaenarifputraainurdin@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
             `Nama: ${name}\nEmail: ${email}\n\nPesan:\n${message}`
         )}`;
         
-        // Open default email client
         window.location.href = mailtoLink;
         
-        // Show success message
-        alert('Terima kasih! Aplikasi email Anda akan terbuka untuk mengirim pesan.');
-        
-        // Reset form
+        showToast('Pesan Terkirim!', 'Terima kasih, aplikasi email Anda akan terbuka.');
         contactFormNew.reset();
     });
 }
 
-// Old contact form - keep for backward compatibility
-const contactForm = document.getElementById('contactForm');
-if(contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('Terima kasih! Pesan Anda telah terkirim.');
-        contactForm.reset();
+// Download CV toast trigger
+document.querySelectorAll('a[download]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        showToast('Mengunduh CV', 'File CV Zaenarif Putra sedang diunduh.', 'ri-file-download-line');
     });
-}
+});
 
 // ========== Scroll Active Link ==========
 const sections = document.querySelectorAll('.nav-menu-section, .nav-menu');
