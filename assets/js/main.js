@@ -110,6 +110,39 @@ tabBtns.forEach(btn => {
     });
 });
 
+// ========== Helper for Modal Scroll Lock ==========
+function openModal(modalElement) {
+    if (modalElement) {
+        modalElement.classList.add('active');
+        document.body.classList.add('modal-open');
+    }
+}
+
+function closeModal(modalElement) {
+    if (modalElement) {
+        modalElement.classList.remove('active');
+    }
+    // Check if any modal is still active
+    const activeModals = document.querySelectorAll('.service-modal.active, .portfolio-modal.active, .certificate-modal.active');
+    if (activeModals.length === 0) {
+        document.body.classList.remove('modal-open');
+    }
+}
+
+function closeAllModals() {
+    document.querySelectorAll('.service-modal.active, .portfolio-modal.active, .certificate-modal.active').forEach(m => {
+        m.classList.remove('active');
+    });
+    document.body.classList.remove('modal-open');
+}
+
+// Global ESC key listener to close modals
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeAllModals();
+    }
+});
+
 // ========== Service Modal ==========
 const serviceCards = document.querySelectorAll('.service-card');
 const serviceModalWeb = document.getElementById('serviceModalWeb');
@@ -120,43 +153,33 @@ const closeModalBtns = document.querySelectorAll('.close-modal');
 serviceCards.forEach(card => {
     card.addEventListener('click', () => {
         const serviceType = card.getAttribute('data-service');
+        closeAllModals();
         
-        // Close all modals first
-        serviceModalWeb.classList.remove('active');
-        serviceModalMobile.classList.remove('active');
-        serviceModalUiux.classList.remove('active');
-        
-        // Open the correct modal based on service type
         if(serviceType === 'web') {
-            serviceModalWeb.classList.add('active');
+            openModal(serviceModalWeb);
         } else if(serviceType === 'mobile') {
-            serviceModalMobile.classList.add('active');
+            openModal(serviceModalMobile);
         } else if(serviceType === 'uiux') {
-            serviceModalUiux.classList.add('active');
+            openModal(serviceModalUiux);
         }
     });
 });
 
 closeModalBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-        serviceModalWeb.classList.remove('active');
-        serviceModalMobile.classList.remove('active');
-        serviceModalUiux.classList.remove('active');
-        
-        // Close all portfolio modals
-        Object.values(portfolioModals).forEach(m => m.classList.remove('active'));
-        
-        certificateModal.classList.remove('active');
+        closeAllModals();
     });
 });
 
 // Close modal when clicking outside
 [serviceModalWeb, serviceModalMobile, serviceModalUiux].forEach(modal => {
-    modal.addEventListener('click', (e) => {
-        if(e.target === modal) {
-            modal.classList.remove('active');
-        }
-    });
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if(e.target === modal) {
+                closeModal(modal);
+            }
+        });
+    }
 });
 
 // ========== Portfolio Filter ==========
@@ -201,12 +224,8 @@ portfolioItems.forEach(item => {
         const modal = portfolioModals[portfolioId];
         
         if(modal) {
-            // Close all portfolio modals first
-            Object.values(portfolioModals).forEach(m => {
-                if(m) m.classList.remove('active');
-            });
-            // Open the selected modal
-            modal.classList.add('active');
+            closeAllModals();
+            openModal(modal);
         } else {
             console.error('Modal not found for portfolio ID:', portfolioId);
         }
@@ -218,7 +237,7 @@ Object.values(portfolioModals).forEach(modal => {
     if(modal) {
         modal.addEventListener('click', (e) => {
             if(e.target === modal) {
-                modal.classList.remove('active');
+                closeModal(modal);
             }
         });
     }
@@ -242,19 +261,24 @@ certificateCards.forEach(card => {
         certificateModalTitle.textContent = title;
         certificateModalIssuer.textContent = 'Issued by: ' + issuer;
         
-        certificateModal.classList.add('active');
+        closeAllModals();
+        openModal(certificateModal);
     });
 });
 
-closeCertificate.addEventListener('click', () => {
-    certificateModal.classList.remove('active');
-});
+if (closeCertificate) {
+    closeCertificate.addEventListener('click', () => {
+        closeModal(certificateModal);
+    });
+}
 
-certificateModal.addEventListener('click', (e) => {
-    if(e.target === certificateModal) {
-        certificateModal.classList.remove('active');
-    }
-});
+if (certificateModal) {
+    certificateModal.addEventListener('click', (e) => {
+        if(e.target === certificateModal) {
+            closeModal(certificateModal);
+        }
+    });
+}
 
 // ========== Smooth Scroll ==========
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {

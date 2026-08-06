@@ -14,6 +14,11 @@
 </head>
 <body>
 
+  <!--========== Ambient Background Orbs ==========-->
+  <div class="ambient-orb ambient-orb-1"></div>
+  <div class="ambient-orb ambient-orb-2"></div>
+  <div class="ambient-orb ambient-orb-3"></div>
+
   <!--========== Customized cursor ==========-->
 
   <!--========== To top button with scroll indicator bar ==========-->
@@ -45,7 +50,7 @@
   <div class="bottom-nav-container">
     <div class="bottom-nav">
         <div class="bottom-nav-inner">
-            <i class="ri-arrow-left-down-line menu-hide-btn"></i>
+            <i class="ri-arrow-left-down-line menu-hide-btn" title="Sembunyikan Menu"></i>
             <ul class="menu">
                 <li class="menu-item"><a href="#home" class="current"><i class="ri-home-6-line"></i><span>Home</span></a></li>
                 <li class="menu-item"><a href="#about"><i class="ri-user-line"></i><span>About</span></a></li>
@@ -57,7 +62,7 @@
             </ul>
         </div>
     </div>
-    <div class="menu-show-btn">
+    <div class="menu-show-btn" title="Tampilkan Menu">
         <div class="bar-01"></div>
         <div class="bar-02"></div>
     </div>
@@ -71,26 +76,48 @@
                 <span>Ikuti Saya</span>
                 <div class="social-line"></div>
                 <ul class="social-icons">
-                    <li><a href="http://instagram.com/putraaznrf/" target="_blank"><i class="ri-instagram-line"></i></a></li>
-                    <li><a href="https://github.com/zaenarifputra" target="_blank"><i class="ri-github-fill"></i></a></li>
-                    <li><a href="https://www.linkedin.com/in/zaenarifputra/" target="_blank"><i class="ri-linkedin-fill"></i></a></li>
+                    <li><a href="http://instagram.com/putraaznrf/" target="_blank" aria-label="Instagram"><i class="ri-instagram-line"></i></a></li>
+                    <li><a href="https://github.com/zaenarifputra" target="_blank" aria-label="GitHub"><i class="ri-github-fill"></i></a></li>
+                    <li><a href="https://www.linkedin.com/in/zaenarifputra/" target="_blank" aria-label="LinkedIn"><i class="ri-linkedin-fill"></i></a></li>
                 </ul>
             </div>
             <div class="avatar-container">
-                <div class="ptr-main-btn fill-btn hire-btn-01">
-                    <a href="mailto:zaenarifputraainurdin@gmail.com">Mari Bekerja Sama <i class="ri-user-follow-line"></i></a>
-                </div>
-                <div class="avatar-img">
-                    <img src="assets/images/my-foto.png" alt="Zaenarif Putra" loading="eager">
+                <div class="avatar-img-wrapper">
+                    <div class="avatar-glow-ring"></div>
+                    <div class="avatar-img">
+                        <img src="assets/images/my-foto.png" alt="Zaenarif Putra" loading="eager">
+                    </div>
+                    <!-- Floating Tech Badges -->
+                    <div class="floating-badge badge-flutter" title="Flutter">
+                        <i class="ri-flutter-fill"></i> <span>Flutter</span>
+                    </div>
+                    <div class="floating-badge badge-kotlin" title="Kotlin">
+                        <i class="ri-code-s-slash-line"></i> <span>Kotlin</span>
+                    </div>
+                    <div class="floating-badge badge-react" title="React">
+                        <i class="ri-reactjs-line"></i> <span>React</span>
+                    </div>
+                    <div class="floating-badge badge-figma" title="Figma UI/UX">
+                        <i class="ri-figma-line"></i> <span>Figma</span>
+                    </div>
                 </div>
                 <div class="avatar-info">
-                    <div class="text-content">
-                        <h4 class="hello-text">Hai, Saya</h4>
-                        <h1 class="my-name">Zaenarif Putra</h1>
-                        <p class="what-i-do">Seorang Mobile & Web Developer</p>
+                    <div class="status-pill">
+                        <span class="status-dot"></span>
+                        <span>Open for Opportunities</span>
                     </div>
-                    <div class="ptr-main-btn fill-btn hire-btn-02">
-                        <a href="mailto:zaenarifputraainurdin@gmail.com">Mari Bekerja Sama <i class="ri-user-follow-line"></i></a>
+                    <div class="text-content">
+                        <h4 class="hello-text">Hai, Saya 👋</h4>
+                        <h1 class="my-name">Zaenarif Putra</h1>
+                        <p class="what-i-do">Seorang <span class="highlight-text">Mobile & Web Developer</span></p>
+                    </div>
+                    <div class="hero-actions">
+                        <div class="ptr-main-btn fill-btn">
+                            <a href="mailto:zaenarifputraainurdin@gmail.com">Mari Bekerja Sama <i class="ri-send-plane-fill"></i></a>
+                        </div>
+                        <div class="ptr-main-btn border-btn">
+                            <a href="assets/pdf/CV_Zaenarif-Putra.pdf" download="CV_Zaenarif-Putra.pdf">Download CV <i class="ri-download-2-line"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
