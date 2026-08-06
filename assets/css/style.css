@@ -1317,8 +1317,17 @@ body.light-theme .floating-badge {
 }
 
 .timeline-content p{
-    color: var(--color-04);
+    color: var(--color-02);
     font-size: var(--small-font-size);
+    font-weight: var(--font-semi-bold);
+}
+
+.timeline-desc{
+    display: block;
+    font-size: 0.84rem;
+    color: var(--color-04);
+    margin-top: 6px;
+    line-height: 1.5;
 }
 
 .skills-grid{
