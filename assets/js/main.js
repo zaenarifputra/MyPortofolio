@@ -548,6 +548,29 @@ function init3DExperience() {
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
+    // 3. High-End Glossy Metallic Geometries
+    const group3D = new THREE.Group();
+    scene.add(group3D);
+
+    // Responsive 3D Group Position (Encircling avatar photo on the left so hero text on the right stays clean & readable)
+    function update3DGroupPosition() {
+        const winW = window.innerWidth;
+        if (winW > 992) {
+            // Desktop: Position behind avatar photo on the left
+            group3D.position.set(-2.3, 0.1, 0);
+            group3D.scale.set(0.85, 0.85, 0.85);
+        } else if (winW > 576) {
+            // Tablet: Position top around avatar
+            group3D.position.set(0, 1.4, 0);
+            group3D.scale.set(0.7, 0.7, 0.7);
+        } else {
+            // Mobile: Position top scaled
+            group3D.position.set(0, 1.6, 0);
+            group3D.scale.set(0.55, 0.55, 0.55);
+        }
+    }
+    update3DGroupPosition();
+
     // Handle Window Resize
     window.addEventListener('resize', () => {
         width = heroSection.clientWidth || window.innerWidth;
@@ -555,6 +578,7 @@ function init3DExperience() {
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         renderer.setSize(width, height);
+        update3DGroupPosition();
     });
 
     // 2. Dynamic Interactive Lighting System
@@ -574,8 +598,6 @@ function init3DExperience() {
     scene.add(pointLight2);
 
     // 3. High-End Glossy Metallic Geometries
-    const group3D = new THREE.Group();
-
     // Central Torus Knot (Metallic Phong Shading)
     const torusGeo = new THREE.TorusKnotGeometry(1.8, 0.35, 140, 20);
     const torusMat = new THREE.MeshPhongMaterial({
