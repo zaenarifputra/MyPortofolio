@@ -4184,34 +4184,28 @@ body.light-theme .floating-badge {
 }
 
 /* =========================================
-   3D Canvas & Tilt Effects
+   3D Canvas & High-End 3D Stage
 ========================================= */
+#home {
+    position: relative;
+    overflow: hidden;
+}
+
 #hero3dCanvas {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 520px;
-    height: 520px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
     z-index: 0;
-    opacity: 0.9;
+    opacity: 0.95;
     transition: opacity 0.5s ease;
 }
 
-@media screen and (max-width: 992px) {
-    #hero3dCanvas {
-        width: 420px;
-        height: 420px;
-    }
-}
-
-@media screen and (max-width: 768px) {
-    #hero3dCanvas {
-        width: 320px;
-        height: 320px;
-        opacity: 0.7;
-    }
+.home-container {
+    position: relative;
+    z-index: 2;
 }
 
 .avatar-img-wrapper {
@@ -4223,27 +4217,49 @@ body.light-theme .floating-badge {
 .avatar-img {
     position: relative;
     z-index: 2;
-    transform: translateZ(25px);
+    transform: translateZ(30px);
+    border-radius: 50%;
+    box-shadow: 0 20px 50px rgba(59, 130, 246, 0.25);
+    transition: box-shadow 0.4s ease;
+}
+
+body.light-theme .avatar-img {
+    box-shadow: 0 20px 50px rgba(79, 70, 229, 0.2);
 }
 
 .floating-badge {
-    z-index: 3;
+    z-index: 4;
     transform-style: preserve-3d;
-    transform: translateZ(40px);
+    transform: translateZ(50px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+body.light-theme .floating-badge {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .service-card, .portfolio-item, .certificate-card, .stat-box {
     transform-style: preserve-3d;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
-.service-card:hover, .portfolio-item:hover, .certificate-card:hover {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+.service-card:hover, .portfolio-item:hover, .certificate-card:hover, .stat-box:hover {
+    box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.3);
+    border-color: rgba(59, 130, 246, 0.4);
 }
 
 body.light-theme .service-card:hover,
 body.light-theme .portfolio-item:hover,
-body.light-theme .certificate-card:hover {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+body.light-theme .certificate-card:hover,
+body.light-theme .stat-box:hover {
+    box-shadow: 0 25px 50px -12px rgba(79, 70, 229, 0.22);
+    border-color: rgba(79, 70, 229, 0.3);
 }
+
 

@@ -522,89 +522,154 @@ window.addEventListener('resize', () => {
 });
 
 // =========================================
-//  Interactive 3D Three.js Hero Canvas & Tilt
+//  Award-Winning High-End 3D WebGL Engine
 // =========================================
 function init3DExperience() {
     const canvas = document.getElementById('hero3dCanvas');
     if (!canvas || typeof THREE === 'undefined') return;
 
-    // 1. Scene, Camera, Renderer
+    const heroSection = document.getElementById('home');
+    if (!heroSection) return;
+
+    // 1. Scene & Camera Setup
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-    camera.position.z = 7;
+    
+    let width = heroSection.clientWidth || window.innerWidth;
+    let height = heroSection.clientHeight || window.innerHeight;
+
+    const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
+    camera.position.z = 8;
 
     const renderer = new THREE.WebGLRenderer({
         canvas: canvas,
         alpha: true,
         antialias: true
     });
-    renderer.setSize(520, 520);
+    renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // Colors matching HSL theme
-    const isLight = document.body.classList.contains('light-theme');
-    const primaryColorHex = isLight ? 0x4f46e5 : 0x3b82f6; // Indigo/Blue glow
-    const secondaryColorHex = isLight ? 0x9333ea : 0x8b5cf6; // Purple glow
+    // Handle Window Resize
+    window.addEventListener('resize', () => {
+        width = heroSection.clientWidth || window.innerWidth;
+        height = heroSection.clientHeight || window.innerHeight;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+    });
 
-    // 2. 3D Geometries
-    // Outer Torus Knot Ring (Wireframe Glowing Core)
-    const torusGeometry = new THREE.TorusKnotGeometry(1.6, 0.22, 120, 16);
-    const torusMaterial = new THREE.MeshBasicMaterial({
-        color: primaryColorHex,
+    // 2. Dynamic Interactive Lighting System
+    const isLight = document.body.classList.contains('light-theme');
+    
+    const ambientLight = new THREE.AmbientLight(isLight ? 0xffffff : 0x1e1b4b, isLight ? 1.2 : 0.8);
+    scene.add(ambientLight);
+
+    // Glowing Neon Point Light 1 (Cyan/Indigo)
+    const pointLight1 = new THREE.PointLight(isLight ? 0x4f46e5 : 0x3b82f6, 3, 20);
+    pointLight1.position.set(3, 3, 4);
+    scene.add(pointLight1);
+
+    // Glowing Neon Point Light 2 (Violet/Purple)
+    const pointLight2 = new THREE.PointLight(isLight ? 0x9333ea : 0xa855f7, 2.5, 20);
+    pointLight2.position.set(-3, -3, 3);
+    scene.add(pointLight2);
+
+    // 3. High-End Glossy Metallic Geometries
+    const group3D = new THREE.Group();
+
+    // Central Torus Knot (Metallic Phong Shading)
+    const torusGeo = new THREE.TorusKnotGeometry(1.8, 0.35, 140, 20);
+    const torusMat = new THREE.MeshPhongMaterial({
+        color: isLight ? 0x4338ca : 0x2563eb,
+        emissive: isLight ? 0x3730a3 : 0x1e40af,
+        specular: 0x60a5fa,
+        shininess: 80,
         wireframe: true,
         transparent: true,
-        opacity: 0.45
+        opacity: 0.55
     });
-    const torusKnot = new THREE.Mesh(torusGeometry, torusMaterial);
-    scene.add(torusKnot);
+    const mainTorus = new THREE.Mesh(torusGeo, torusMat);
+    group3D.add(mainTorus);
 
-    // Inner Icosahedron
-    const icoGeometry = new THREE.IcosahedronGeometry(0.9, 1);
-    const icoMaterial = new THREE.MeshBasicMaterial({
-        color: secondaryColorHex,
-        wireframe: true,
+    // Inner Glowing Crystal (Glossy Octahedron)
+    const octGeo = new THREE.OctahedronGeometry(1.0, 0);
+    const octMat = new THREE.MeshPhongMaterial({
+        color: isLight ? 0x7c3aed : 0x8b5cf6,
+        specular: 0xffffff,
+        shininess: 100,
+        flatShading: true,
+        transparent: true,
+        opacity: 0.75
+    });
+    const innerCrystal = new THREE.Mesh(octGeo, octMat);
+    group3D.add(innerCrystal);
+
+    // 4. Orbiting Tech Nodes (3D Tech Spheres)
+    const orbitingGroup = new THREE.Group();
+    const sphereCount = 5;
+    const spheres = [];
+    const techColors = [0x0284c7, 0x7c3aed, 0xec4899, 0x10b981, 0xf59e0b];
+
+    for (let i = 0; i < sphereCount; i++) {
+        const radius = 0.28 + (i % 2) * 0.08;
+        const sphereGeo = new THREE.SphereGeometry(radius, 24, 24);
+        const sphereMat = new THREE.MeshPhongMaterial({
+            color: techColors[i],
+            specular: 0xffffff,
+            shininess: 90
+        });
+        const sphereMesh = new THREE.Mesh(sphereGeo, sphereMat);
+        
+        const angle = (i / sphereCount) * Math.PI * 2;
+        const orbitRadius = 3.2;
+        sphereMesh.position.set(
+            Math.cos(angle) * orbitRadius,
+            Math.sin(angle) * orbitRadius,
+            (Math.random() - 0.5) * 1.5
+        );
+        
+        orbitingGroup.add(sphereMesh);
+        spheres.push({ mesh: sphereMesh, angle: angle, orbitRadius: orbitRadius, speed: 0.008 + i * 0.003 });
+    }
+    group3D.add(orbitingGroup);
+
+    // 5. 3D Cyber Wave Particle Grid (Background Stars & Ripple)
+    const particlesCount = 200;
+    const particlesGeo = new THREE.BufferGeometry();
+    const positions = new Float32Array(particlesCount * 3);
+    const initialY = new Float32Array(particlesCount);
+
+    for (let i = 0; i < particlesCount; i++) {
+        const idx = i * 3;
+        positions[idx] = (Math.random() - 0.5) * 18;
+        positions[idx + 1] = (Math.random() - 0.5) * 14;
+        positions[idx + 2] = (Math.random() - 0.5) * 12;
+        initialY[i] = positions[idx + 1];
+    }
+    particlesGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    const particlesMat = new THREE.PointsMaterial({
+        size: 0.06,
+        color: isLight ? 0x4f46e5 : 0x38bdf8,
         transparent: true,
         opacity: 0.65
     });
-    const icosahedron = new THREE.Mesh(icoGeometry, icoMaterial);
-    scene.add(icosahedron);
-
-    // Floating 3D Particles Field
-    const particlesCount = 90;
-    const particlesGeometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particlesCount * 3);
-
-    for (let i = 0; i < particlesCount * 3; i += 3) {
-        positions[i] = (Math.random() - 0.5) * 8;
-        positions[i + 1] = (Math.random() - 0.5) * 8;
-        positions[i + 2] = (Math.random() - 0.5) * 8;
-    }
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-    const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.045,
-        color: primaryColorHex,
-        transparent: true,
-        opacity: 0.7
-    });
-    const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
+    const particleSystem = new THREE.Points(particlesGeo, particlesMat);
     scene.add(particleSystem);
 
-    // 3. Mouse Parallax Movement
+    scene.add(group3D);
+
+    // 6. Interactive Mouse & Cursor Light Parallax
     let mouseX = 0;
     let mouseY = 0;
     let targetX = 0;
     let targetY = 0;
 
-    const windowHalfX = window.innerWidth / 2;
-    const windowHalfY = window.innerHeight / 2;
-
     document.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX - windowHalfX) * 0.001;
-        mouseY = (e.clientY - windowHalfY) * 0.001;
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
     });
 
-    // 4. Animation Loop
+    // 7. Animation Loop (Smooth Lerp & Fluid Motion)
     const clock = new THREE.Clock();
 
     function animate() {
@@ -612,37 +677,62 @@ function init3DExperience() {
 
         const elapsedTime = clock.getElapsedTime();
 
-        // Smooth rotation
-        torusKnot.rotation.x = elapsedTime * 0.25;
-        torusKnot.rotation.y = elapsedTime * 0.35;
+        // 3D Object Motion
+        mainTorus.rotation.x = elapsedTime * 0.2;
+        mainTorus.rotation.y = elapsedTime * 0.3;
 
-        icosahedron.rotation.x = -elapsedTime * 0.3;
-        icosahedron.rotation.y = -elapsedTime * 0.4;
+        innerCrystal.rotation.x = -elapsedTime * 0.35;
+        innerCrystal.rotation.y = -elapsedTime * 0.45;
 
-        particleSystem.rotation.y = elapsedTime * 0.05;
+        // Orbiting spheres motion
+        spheres.forEach((s) => {
+            s.angle += s.speed;
+            s.mesh.position.x = Math.cos(s.angle) * s.orbitRadius;
+            s.mesh.position.y = Math.sin(s.angle) * s.orbitRadius + Math.sin(elapsedTime + s.angle) * 0.3;
+        });
+        orbitingGroup.rotation.z = elapsedTime * 0.1;
 
-        // Smooth lerp mouse tracking
-        targetX += (mouseX - targetX) * 0.05;
-        targetY += (mouseY - targetY) * 0.05;
+        // Particle wave animation
+        const particlePos = particlesGeo.attributes.position.array;
+        for (let i = 0; i < particlesCount; i++) {
+            const idx = i * 3;
+            particlePos[idx + 1] = initialY[i] + Math.sin(elapsedTime * 1.5 + particlePos[idx] * 0.5) * 0.25;
+        }
+        particlesGeo.attributes.position.needsUpdate = true;
 
-        scene.rotation.y = targetX * 1.5;
-        scene.rotation.x = targetY * 1.5;
+        // Fluid Mouse Dampening
+        targetX += (mouseX - targetX) * 0.04;
+        targetY += (mouseY - targetY) * 0.04;
+
+        group3D.rotation.y = targetX * 0.8;
+        group3D.rotation.x = -targetY * 0.8;
+
+        // Dynamic Point Lights Follow Cursor
+        pointLight1.position.x = targetX * 6 + 2;
+        pointLight1.position.y = -targetY * 6 + 2;
+
+        pointLight2.position.x = -targetX * 6 - 2;
+        pointLight2.position.y = targetY * 6 - 2;
 
         renderer.render(scene, camera);
     }
     animate();
 
-    // 5. Theme Toggle Listener Integration
+    // 8. Theme Toggle Listener Integration
     if (typeof themeBtn !== 'undefined' && themeBtn) {
         themeBtn.addEventListener('click', () => {
             setTimeout(() => {
                 const isLightNow = document.body.classList.contains('light-theme');
-                const newPrimary = isLightNow ? 0x4f46e5 : 0x3b82f6;
-                const newSecondary = isLightNow ? 0x9333ea : 0x8b5cf6;
+                
+                pointLight1.color.setHex(isLightNow ? 0x4f46e5 : 0x3b82f6);
+                pointLight2.color.setHex(isLightNow ? 0x9333ea : 0xa855f7);
+                ambientLight.color.setHex(isLightNow ? 0xffffff : 0x1e1b4b);
+                ambientLight.intensity = isLightNow ? 1.2 : 0.8;
 
-                torusMaterial.color.setHex(newPrimary);
-                icoMaterial.color.setHex(newSecondary);
-                particlesMaterial.color.setHex(newPrimary);
+                torusMat.color.setHex(isLightNow ? 0x4338ca : 0x2563eb);
+                torusMat.emissive.setHex(isLightNow ? 0x3730a3 : 0x1e40af);
+                octMat.color.setHex(isLightNow ? 0x7c3aed : 0x8b5cf6);
+                particlesMat.color.setHex(isLightNow ? 0x4f46e5 : 0x38bdf8);
             }, 50);
         });
     }
@@ -671,4 +761,5 @@ if (document.readyState === 'loading') {
     init3DExperience();
     init3DTiltCards();
 }
+
 
