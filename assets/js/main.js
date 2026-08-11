@@ -520,3 +520,155 @@ window.addEventListener('resize', () => {
         menuShowBtn.classList.remove('show');
     }
 });
+
+// =========================================
+//  Interactive 3D Three.js Hero Canvas & Tilt
+// =========================================
+function init3DExperience() {
+    const canvas = document.getElementById('hero3dCanvas');
+    if (!canvas || typeof THREE === 'undefined') return;
+
+    // 1. Scene, Camera, Renderer
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+    camera.position.z = 7;
+
+    const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: true
+    });
+    renderer.setSize(520, 520);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Colors matching HSL theme
+    const isLight = document.body.classList.contains('light-theme');
+    const primaryColorHex = isLight ? 0x4f46e5 : 0x3b82f6; // Indigo/Blue glow
+    const secondaryColorHex = isLight ? 0x9333ea : 0x8b5cf6; // Purple glow
+
+    // 2. 3D Geometries
+    // Outer Torus Knot Ring (Wireframe Glowing Core)
+    const torusGeometry = new THREE.TorusKnotGeometry(1.6, 0.22, 120, 16);
+    const torusMaterial = new THREE.MeshBasicMaterial({
+        color: primaryColorHex,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.45
+    });
+    const torusKnot = new THREE.Mesh(torusGeometry, torusMaterial);
+    scene.add(torusKnot);
+
+    // Inner Icosahedron
+    const icoGeometry = new THREE.IcosahedronGeometry(0.9, 1);
+    const icoMaterial = new THREE.MeshBasicMaterial({
+        color: secondaryColorHex,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.65
+    });
+    const icosahedron = new THREE.Mesh(icoGeometry, icoMaterial);
+    scene.add(icosahedron);
+
+    // Floating 3D Particles Field
+    const particlesCount = 90;
+    const particlesGeometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particlesCount * 3);
+
+    for (let i = 0; i < particlesCount * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 8;
+        positions[i + 1] = (Math.random() - 0.5) * 8;
+        positions[i + 2] = (Math.random() - 0.5) * 8;
+    }
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    const particlesMaterial = new THREE.PointsMaterial({
+        size: 0.045,
+        color: primaryColorHex,
+        transparent: true,
+        opacity: 0.7
+    });
+    const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particleSystem);
+
+    // 3. Mouse Parallax Movement
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
+
+    const windowHalfX = window.innerWidth / 2;
+    const windowHalfY = window.innerHeight / 2;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX - windowHalfX) * 0.001;
+        mouseY = (e.clientY - windowHalfY) * 0.001;
+    });
+
+    // 4. Animation Loop
+    const clock = new THREE.Clock();
+
+    function animate() {
+        requestAnimationFrame(animate);
+
+        const elapsedTime = clock.getElapsedTime();
+
+        // Smooth rotation
+        torusKnot.rotation.x = elapsedTime * 0.25;
+        torusKnot.rotation.y = elapsedTime * 0.35;
+
+        icosahedron.rotation.x = -elapsedTime * 0.3;
+        icosahedron.rotation.y = -elapsedTime * 0.4;
+
+        particleSystem.rotation.y = elapsedTime * 0.05;
+
+        // Smooth lerp mouse tracking
+        targetX += (mouseX - targetX) * 0.05;
+        targetY += (mouseY - targetY) * 0.05;
+
+        scene.rotation.y = targetX * 1.5;
+        scene.rotation.x = targetY * 1.5;
+
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    // 5. Theme Toggle Listener Integration
+    if (typeof themeBtn !== 'undefined' && themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            setTimeout(() => {
+                const isLightNow = document.body.classList.contains('light-theme');
+                const newPrimary = isLightNow ? 0x4f46e5 : 0x3b82f6;
+                const newSecondary = isLightNow ? 0x9333ea : 0x8b5cf6;
+
+                torusMaterial.color.setHex(newPrimary);
+                icoMaterial.color.setHex(newSecondary);
+                particlesMaterial.color.setHex(newPrimary);
+            }, 50);
+        });
+    }
+}
+
+// Inisialisasi Vanilla-Tilt pada kartu UI
+function init3DTiltCards() {
+    if (typeof VanillaTilt === 'undefined') return;
+
+    VanillaTilt.init(document.querySelectorAll('.service-card, .portfolio-item, .certificate-card, .stat-box, .floating-badge'), {
+        max: 12,
+        speed: 400,
+        glare: true,
+        'max-glare': 0.2,
+        perspective: 1000
+    });
+}
+
+// Boot up 3D experience when DOM is ready or fully loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        init3DExperience();
+        init3DTiltCards();
+    });
+} else {
+    init3DExperience();
+    init3DTiltCards();
+}
+
